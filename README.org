@@ -1,0 +1,26 @@
+* lodgeit.el
+
+[[http://paste.openstack.org/about/][Lodgeit]] is a pastebin used by [[http://openstack.org][the OpenStack Project]]. Lodgeit.el allows
+easy pasting from Emacs to the [[http://paste.openstack.org][OpenStack pastebin,]] using only elisp.
+
+** Usage
+
+Add lodgeit.el to you emacs init file.
+
+#+BEGIN_SRC elisp
+  (require 'lodgeit)
+#+END_SRC
+
+You can configure a different pastebin as well:
+
+#+BEGIN_SRC elisp
+  (setq lodgeit-pastebin-base "http://paste.example.com")
+#+END_SRC
+
+You can then select a region and use `M-x lodgeit-paste` to paste it
+to the configured pastebin. The major mode will be used to determine
+the highlighting.
+
+** Hacking
+
+Patches are welcome! Please submit bugs to [[https://github.com/ionrock/lodgeit-el/issues/][github]].
