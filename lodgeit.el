@@ -46,7 +46,6 @@
 ;;
 
 ;;; Code:
-
 (require 's)
 (require 'json)
 
@@ -54,17 +53,21 @@
 (defvar lodgeit-pastebin-base "http://paste.openstack.org")
 
 (defun lodgeit-paste-body ()
+  "Grab the body of the paste."
   (unless (mark)
     (error "There is nothing selected!"))
   (buffer-substring (mark) (point)))
 
 (defun lodgeit-find-language ()
+  "Try to find the language based on the major mode of the buffer."
   (car (s-split "-mode" (symbol-name major-mode))))
 
 (defun lodgeit-paste-json-body (code)
+  "Create a JSON based on the CODE for submitting to the pastebin."
   (json-encode `(,(lodgeit-find-language) ,code)))
 
 (defun lodgeit-new-paste-handler (status)
+  "A handler for the response STATUS."
   (search-forward "\n\n")  ;; move past the headers
   (let* ((data (buffer-substring (point) (buffer-end 1)))
 	 (paste-id (assoc-default 'data (json-read-from-string data)))
@@ -74,9 +77,9 @@
       (insert paste-url)
       (kill-new (buffer-string)))))
 
-(lodgeit-create-paste (lodgeit-paste-json-body "(message \"Hello world!\""))
-
 (defun lodgeit-create-paste (message)
+  "Create a new paste.
+The MESSAGE must be a JSON encoded string."
   (let ((url-request-method "POST")
 	(url-request-extra-headers '(("Content-Type" . "application/json")))
 	(url-request-data message)
@@ -92,3 +95,5 @@
 
 
 (provide 'lodgeit)
+
+;;; lodgeit.el ends here
