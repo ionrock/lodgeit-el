@@ -5,7 +5,6 @@
 ;; Author: Eric Larson <eric@ionrock.org>
 ;; Created: 9 Mar 2012
 ;; Version: 1.0
-;; Package-Requires: ((s "1.9.0"))
 ;; Keywords: pastebin lodgeit
 ;; X-URL: https://github.com/ionrock/lodgeit-el
 
@@ -46,7 +45,6 @@
 ;;
 
 ;;; Code:
-(require 's)
 (require 'json)
 
 ;; TODO: Make this a defcustom
@@ -60,7 +58,7 @@
 
 (defun lodgeit-find-language ()
   "Try to find the language based on the major mode of the buffer."
-  (car (s-split "-mode" (symbol-name major-mode))))
+  (car (split-string (symbol-name major-mode) "-mode")))
 
 (defun lodgeit-paste-json-body (code)
   "Create a JSON based on the CODE for submitting to the pastebin."
@@ -86,10 +84,11 @@ The MESSAGE must be a JSON encoded string."
 	(paste-url (format "%s/json/?method=pastes.newPaste" lodgeit-pastebin-base)))
     (url-retrieve paste-url 'lodgeit-new-paste-handler)))
 
-(defun lodgeit-paste ()
+;;;###autoload
+(defun lodgeit-paste (start end)
   "Paste the selected area to the lodgeit pastebin."
-  (interactive)
-  (let* ((content (lodgeit-paste-body))
+  (interactive "r")
+  (let* ((content (buffer-substring (mark) (point)))
 	 (message (lodgeit-paste-json-body content)))
     (lodgeit-create-paste message)))
 
