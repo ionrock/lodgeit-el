@@ -86,6 +86,7 @@ The MESSAGE must be a JSON encoded string."
 	(paste-url (format "%s/json/?method=pastes.newPaste" lodgeit-pastebin-base)))
     (url-retrieve paste-url 'lodgeit-new-paste-handler)))
 
+;;;###autoload
 (defun lodgeit-paste ()
   "Paste the selected area to the lodgeit pastebin."
   (interactive)
