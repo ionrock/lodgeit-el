@@ -50,12 +50,6 @@
 ;; TODO: Make this a defcustom
 (defvar lodgeit-pastebin-base "http://paste.openstack.org")
 
-(defun lodgeit-paste-body ()
-  "Grab the body of the paste."
-  (unless (mark)
-    (error "There is nothing selected!"))
-  (buffer-substring (mark) (point)))
-
 (defun lodgeit-find-language ()
   "Try to find the language based on the major mode of the buffer."
   (car (split-string (symbol-name major-mode) "-mode")))
